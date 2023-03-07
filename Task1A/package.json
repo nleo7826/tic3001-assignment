@@ -1,0 +1,23 @@
+{
+  "name": "task1a",
+  "version": "1.0.0",
+  "description": "Task1A is split into 3 parts.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TIC3001-AY2223S2/Task1A.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TIC3001-AY2223S2/Task1A/issues"
+  },
+  "homepage": "https://github.com/TIC3001-AY2223S2/Task1A#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
