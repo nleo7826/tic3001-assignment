@@ -1,22 +1,21 @@
 // productController.js
 // Import product model
-Product = require('./productModel');
+const Product = require('./productModel');
 // Handle index actions
 exports.index = function (req, res) {
-    Product.get()
-        .then(function (products) {
-            res.json({
-                status: "success",
-                message: "products retrieved successfully",
-                data: products
-            });
-        })
-        .catch(function (err) {
+    Product.find(function (err, products) {
+        if (err) {
             res.json({
                 status: "error",
                 message: err,
             });
+        }
+        res.json({
+            status: "success",
+            message: "Products retrieved successfully",
+            data: products
         });
+    });
 };
 
 // Handle create product actions
@@ -24,7 +23,7 @@ exports.new = function (req, res) {
     let product = new Product();
     product.name = req.body.name ? req.body.name : product.name;
     product.price = req.body.price;
-    product.quatity = req.body.quatity;
+    product.quantity = req.body.quantity;
 // save the product and check for errors
     product.save(function (err) {
         // Check for validation error
@@ -39,7 +38,7 @@ exports.new = function (req, res) {
 };
 // Handle view product info
 exports.view = function (req, res) {
-    product.findById(req.params.product_id, function (err, product) {
+    Product.findById(req.params.product_id, function (err, product) {
         if (err)
             res.send(err);
         res.json({
@@ -50,12 +49,12 @@ exports.view = function (req, res) {
 };
 // Handle update product info
 exports.update = function (req, res) {
-    product.findById(req.params.product_id, function (err, product) {
+    Product.findById(req.params.product_id, function (err, product) {
         if (err)
             res.send(err);
         product.name = req.body.name ? req.body.name : product.name;
         product.price = req.body.price;
-        product.quatity = req.body.quatity;
+        product.quantity = req.body.quantity;
 // save the product and check for errors
         product.save(function (err) {
             if (err)
@@ -69,7 +68,7 @@ exports.update = function (req, res) {
 };
 // Handle delete product
 exports.delete = function (req, res) {
-    product.remove({
+    Product.remove({
         _id: req.params.product_id
     }, function (err, product) {
         if (err)
@@ -80,14 +79,3 @@ exports.delete = function (req, res) {
         });
     });
 };
-
-// Get all products
-// exports.getAllProducts = async (req, res) => {
-//     try {
-//       const products = await Product.find()
-//       res.json(products)
-//     } catch (err) {
-//       console.error(err)
-//       res.status(500).send('Server Error')
-//     }
-//   }

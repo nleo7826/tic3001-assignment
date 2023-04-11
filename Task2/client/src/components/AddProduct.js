@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "./AddProduct.css";
 
 const AddProduct = ({ addProduct }) => {
   const [name, setName] = useState("");
