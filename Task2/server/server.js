@@ -1,17 +1,10 @@
 require('dotenv').config();
-// Import express
+
 const express = require('express');
-// Import Body parser
 const bodyParser = require('body-parser');
-// Import Mongoose
 const mongoose = require('mongoose');
-//Import cors
 const cors = require('cors');
-// Initialize the app
 const app = express();
-// Import routes
-const apiRoutes = require("./api-routes");
-const userRoutes = require("./user-routes");
 
 app.use(cors());
 // Configure bodyparser to handle post requests
@@ -39,6 +32,10 @@ const port = process.env.APP_PORT || 8080;
 // Send message for default URL
 app.get('/', (req, res) => res.send('Hello World with Express'));
 
+// Import routes
+const apiRoutes = require("./api-routes");
+const userRoutes = require("./user-routes");
+
 // Use Api routes in the App
 app.use('/api', apiRoutes);
 // Launch app to listen to specified PORT
@@ -47,12 +44,30 @@ if(!module.parent){
         console.log("Server running on port: " + port);
     });
 }
-
 // Use user routes in the App
 app.use('/user', userRoutes);
+
+// Import axios for making HTTP requests
+const axios = require('axios');
+const Redis = require('redis');
+const DEFAULT_EXPIRATION = 3600;
+
+app.get('/photos', async (req, res) => {
+  (async () => {
+    const redisClient = Redis.createClient()
+    await redisClient.connect();
+    const albumId = req.query.albumId;
+    const { data } = await axios.get(
+    'https://jsonplaceholder.typicode.com/photos',
+    { params: { albumId } }
+    );
+    redisClient.setEx('photos', DEFAULT_EXPIRATION, JSON.stringify(data));
+    res.json(data);
+  })()
+});
 
 
 module.exports = {
     app,
     port
-  };
+};
