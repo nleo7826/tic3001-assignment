@@ -1,6 +1,6 @@
 // productController.js
 // Import product model
-const Product = require('./productModel');
+const Product = require('../models/product');
 // Handle index actions
 exports.index = function (req, res) {
     Product.find(function (err, products) {
