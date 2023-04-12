@@ -8,14 +8,14 @@ const verifyToken = (req, res, next) => {
   if (!token) {
     return res.status(403).send("A token is required for authentication");
   }
-
   try {
+    console.log(process.env.TOKEN_KEY);
     const decoded = jwt.verify(token, process.env.TOKEN_KEY);
     req.user = decoded;
-    next();
   } catch (err) {
     return res.status(401).send("Invalid Token");
   }
+  return next();
 };
 
 module.exports = verifyToken;

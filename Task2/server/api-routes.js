@@ -1,4 +1,4 @@
-const authMiddleware = require('./middleware/auth');
+const auth = require('./middleware/auth');
 const router = require('express').Router();
 // Set default API response
 router.get('/', (req, res) =>    {
@@ -7,12 +7,15 @@ router.get('/', (req, res) =>    {
 
 const productController = require('./controllers/productController')
 
+// Apply auth middleware to all product routes
+router.use('/products', auth);
+
 // Product routes
-router.route('/products', authMiddleware)
+router.route('/products')
     .get(productController.index)
     .post(productController.new);
 
-router.route('/products/:product_id', authMiddleware)
+router.route('/products/:product_id')
     .get(productController.view)
     .patch(productController.update)
     .put(productController.update)
