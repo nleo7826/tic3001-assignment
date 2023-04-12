@@ -1,16 +1,16 @@
-// Import express
+// ImPORT express
 const express = require('express');
-// Import Body parser
+// ImPORT Body parser
 const bodyParser = require('body-parser');
-// Import Mongoose
+// ImPORT Mongoose
 const mongoose = require('mongoose');
-//Import cors
+//ImPORT cors
 const cors = require('cors');
-//Import jwt
+//ImPORT jwt
 // const jwt = require('jsonwebtoken');
 // Initialize the app
 const app = express();
-// Import routes
+// ImPORT routes
 const apiRoutes = require("./api-routes");
 
 app.use(cors());
@@ -34,15 +34,22 @@ if(!db)
 else
     console.log("Db connected successfully")
 
-// Setup server port
-const port = process.env.PORT || 8080;
+// Setup server PORT
+const PORT = process.env.PORT || 8080;
 
 // Send message for default URL
 app.get('/', (req, res) => res.send('Hello World with Express'));
 
 // Use Api routes in the App
 app.use('/api', apiRoutes);
-// Launch app to listen to specified port
-app.listen(port, () => {
-    console.log("Server running on port", port);
-});
+// Launch app to listen to specified PORT
+if(!module.parent){
+    app.listen(PORT, () => {
+        console.log("Server running on PORT", PORT);
+    });
+}
+
+module.exports = {
+    app,
+    PORT
+  };

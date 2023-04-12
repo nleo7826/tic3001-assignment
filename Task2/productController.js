@@ -30,7 +30,7 @@ exports.new = function (req, res) {
         if (err)
             res.json(err);
         else
-            res.json({
+            res.status(201).json({
                 message: 'New product created!',
                 data: product
             });
@@ -68,14 +68,18 @@ exports.update = function (req, res) {
 };
 // Handle delete product
 exports.delete = function (req, res) {
-    Product.remove({
+    Product.deleteOne({
         _id: req.params.product_id
     }, function (err, product) {
-        if (err)
-            res.send(err);
-        res.json({
-            status: "success",
-            message: 'product deleted'
-        });
+        if (err) {
+            res.status(500).send(err);
+        } else if (product.deletedCount === 0) {
+            res.status(404).send('Product not found');
+        } else {
+            res.json({
+                status: "success",
+                message: 'Product successfully deleted'
+            });
+        }
     });
 };
