@@ -1,8 +1,8 @@
 language: node_js
 node_js:
-  - "16.18"
+  - "19.8.1"
 before_script:
   - cd Task2/
 script:
-  - npm install
+  - npm ci
   - npm test
