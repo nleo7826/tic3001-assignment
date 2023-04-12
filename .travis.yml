@@ -1,7 +1,8 @@
 language: node_js
 node_js:
   - "16.18"
+before_script:
+  - cd tic3001-assignment/Task2/
 script:
-  - cd task2
   - npm install
   - npm test
