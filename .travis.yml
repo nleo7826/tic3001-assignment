@@ -5,7 +5,7 @@ jobs:
     - name: 'Automated API tests using Postman CLI'
       os: linux
       node_js:
-        - "16.18"
+        - "14"
       before_script:
         - npm install dotenv
         - export $(cat .env | xargs)
