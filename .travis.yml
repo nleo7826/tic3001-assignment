@@ -2,14 +2,8 @@ language: node_js
 
 os: osx
 
-before_install:
-  - sudo apt-get update
-  - sudo apt-get install -y curl
-  - sudo apt-get install -y libgconf-2-4
-  - curl -L https://dl.pstmn.io/download/latest/linux64 -O
-  - tar -xzf Postman-linux-x64-*.tar.gz
-  - rm Postman-linux-x64-*.tar.gz
-  - sudo mv Postman /usr/bin/postman
+before_script:
+   - cd Task2/
 
 jobs:
   include:
