@@ -1,5 +1,3 @@
-require('dotenv').config();
-
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
@@ -28,23 +26,13 @@ else
 
 // Setup server PORT
 const port = process.env.APP_PORT || 8080;
+// Launch app to listen to specified PORT
+app.listen(port, () => {
+    console.log("Server running on port: " + port);
+});
 
 // Send message for default URL
 app.get('/', (req, res) => res.send('Hello World with Express'));
-// Launch app to listen to specified PORT
-if(!module.parent){
-    app.listen(port, () => {
-        console.log("Server running on port: " + port);
-    });
-}
-
-// Import routes
-const apiRoutes = require("./api-routes");
-const userRoutes = require("./user-routes");
-
-// Use routes in the App
-app.use('/api', apiRoutes);
-app.use('/user', userRoutes);
 
 // Import axios for making HTTP requests
 const axios = require('axios');
@@ -64,9 +52,3 @@ app.get('/photos', async (req, res) => {
     res.json(data);
   })()
 });
-
-
-module.exports = {
-    app,
-    port
-};
