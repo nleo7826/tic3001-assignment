@@ -30,6 +30,7 @@
     "jsonwebtoken": "^9.0.0",
     "mocha": "^10.2.0",
     "mongoose": "^5.13.16",
+    "mongoose-auto-increment": "^5.0.1",
     "react-router-dom": "^6.10.0",
     "redis": "^4.6.5"
   },
