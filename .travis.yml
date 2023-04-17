@@ -1,17 +1,18 @@
 language: node_js
-os: linux
-node_js: 
-  - "16.18"
-before_script:
-  - npm install dotenv
-  - export $(cat .env | xargs)
-  - wget https://dl.pstmn.io/download/latest/linux64 -O postman.tar.gz
-  - tar -xzf postman.tar.gz
-  - rm postman.tar.gz
-  - export PATH=$PWD/Postman/:$PATH
-script:
-  - postman login --with-api-key $POSTMAN_API_KEY
-  - postman collection run "25370511-e32b570b-b51e-47ef-a287-a4d1d64aeec8"
+
+os: osx
+
+jobs:
+  include:
+    - name: 'Automated API tests using Postman CLI'
+      os: linux
+      node_js: 
+        - "16.18"
+      install:
+        - curl -o- "https://dl-cli.pstmn.io/install/osx_64.sh" | sh
+      script:
+        - postman login --with-api-key PMAK-643d710126a3a51ef8f5fdb3-31c7922101fb199af2099caea1146229d6
+        - postman collection run "25370511-e32b570b-b51e-47ef-a287-a4d1d64aeec8"
 
 
 
