@@ -52,7 +52,7 @@ exports.update = function (req, res) {
     Product.findById(req.params.product_id, function (err, product) {
         if (err)
             res.send(err);
-        product.name = req.body.name ? req.body.name : product.name;
+        product.name = req.body.name;
         product.price = req.body.price;
         product.quantity = req.body.quantity;
 // save the product and check for errors
@@ -60,7 +60,26 @@ exports.update = function (req, res) {
             if (err)
                 res.json(err);
             res.json({
-                message: 'product Info updated',
+                message: 'Product Info updated',
+                data: product
+            });
+        });
+    });
+};
+// Handle patch product info
+exports.patch = function (req, res) {
+    Product.findById(req.params.product_id, function (err, product) {
+        if (err)
+            res.send(err);
+        product.name = req.body.name ? req.body.name : product.name;
+        product.price = req.body.price ? req.body.price : product.price;
+        product.quantity = req.body.quantity ? req.body.quantity : product.quantity;
+// save the product and check for errors
+        product.save(function (err) {
+            if (err)
+                res.json(err);
+            res.json({
+                message: 'Product Info updated',
                 data: product
             });
         });

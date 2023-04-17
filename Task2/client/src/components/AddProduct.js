@@ -5,6 +5,7 @@ const AddProduct = ({ addProduct }) => {
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [quantity, setQuantity] = useState("");
+  const [showPopup, setShowPopup] = useState(false); // Add state for popup
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -12,6 +13,8 @@ const AddProduct = ({ addProduct }) => {
     setName("");
     setPrice("");
     setQuantity("");
+    setShowPopup(true); // Show popup on successful submission
+    setTimeout(() => setShowPopup(false), 5000); // Hide popup after 5 seconds
   };
 
   return (
@@ -50,6 +53,7 @@ const AddProduct = ({ addProduct }) => {
         <br />
         <button type="submit">Add Product</button>
       </form>
+      {showPopup && <div className="popup">Product added successfully</div>}
     </div>
   );
 };

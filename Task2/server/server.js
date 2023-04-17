@@ -40,31 +40,9 @@ if(!module.parent){
 
 // Import routes
 const apiRoutes = require("./api-routes");
-const userRoutes = require("./user-routes");
 
 // Use routes in the App
 app.use('/api', apiRoutes);
-app.use('/user', userRoutes);
-
-// Import axios for making HTTP requests
-const axios = require('axios');
-const Redis = require('redis');
-const DEFAULT_EXPIRATION = 3600;
-
-app.get('/photos', async (req, res) => {
-  (async () => {
-    const redisClient = Redis.createClient()
-    await redisClient.connect();
-    const albumId = req.query.albumId;
-    const { data } = await axios.get(
-    'https://jsonplaceholder.typicode.com/photos',
-    { params: { albumId } }
-    );
-    redisClient.setEx('photos', DEFAULT_EXPIRATION, JSON.stringify(data));
-    res.json(data);
-  })()
-});
-
 
 module.exports = {
     app,
