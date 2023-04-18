@@ -3,17 +3,16 @@
 const Product = require('../models/product');
 // Handle index actions
 exports.index = function (req, res) {
-    Product.find(function (err, products) {
-        if (err) {
+    Product.find()
+        .then(products => {
             res.json({
-                status: "error",
-                message: err,
-            });
-        }
-        res.json({
-            status: "success",
-            message: "Products retrieved successfully",
-            data: products
+                status: "success",
+                message: "Products retrieved successfully",
+                data: products
+            })
+        .catch(err => {
+            console.log(err);
+            res.status(500).send('Server error');
         });
     });
 };
