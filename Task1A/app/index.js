@@ -11,7 +11,7 @@ const PORT = 3000;
 const HOST = '0.0.0.0';
 
 app.get('/', (req, res) => {
-  res.render(path.join(__dirname + '/index.html'));
+  res.render(path.join(__dirname + '/public/index.html'));
 });
 
 app.get('/success', (req, res) => {
