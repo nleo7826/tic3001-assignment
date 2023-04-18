@@ -21,10 +21,10 @@
 
 language: node_js
 node_js:
-  - "16.18"
+  - "stable"
 before_script:
   - cd Task2/server
 
 script:
-  - npm ci
+  - npm ci --legacy-peer-deps
   - npm test
