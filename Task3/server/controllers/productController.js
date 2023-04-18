@@ -3,20 +3,22 @@
 const Product = require('../models/product');
 // Handle index actions
 exports.index = function (req, res) {
-    Product.find(function (err, products) {
-        if (err) {
+    Product.find()
+        .then(products => {
+            res.json({
+                status: "success",
+                message: "Products retrieved successfully",
+                data: products
+            });
+        })
+        .catch(err => {
             res.json({
                 status: "error",
                 message: err,
             });
-        }
-        res.json({
-            status: "success",
-            message: "Products retrieved successfully",
-            data: products
         });
-    });
 };
+
 
 // Handle create product actions
 exports.new = function (req, res) {
@@ -52,7 +54,7 @@ exports.update = function (req, res) {
     Product.findById(req.params.product_id, function (err, product) {
         if (err)
             res.send(err);
-        product.name = req.body.name ? req.body.name : product.name;
+        product.name = req.body.name;
         product.price = req.body.price;
         product.quantity = req.body.quantity;
 // save the product and check for errors
@@ -60,7 +62,26 @@ exports.update = function (req, res) {
             if (err)
                 res.json(err);
             res.json({
-                message: 'product Info updated',
+                message: 'Product Info updated',
+                data: product
+            });
+        });
+    });
+};
+// Handle patch product info
+exports.patch = function (req, res) {
+    Product.findById(req.params.product_id, function (err, product) {
+        if (err)
+            res.send(err);
+        product.name = req.body.name ? req.body.name : product.name;
+        product.price = req.body.price ? req.body.price : product.price;
+        product.quantity = req.body.quantity ? req.body.quantity : product.quantity;
+// save the product and check for errors
+        product.save(function (err) {
+            if (err)
+                res.json(err);
+            res.json({
+                message: 'Product Info updated',
                 data: product
             });
         });
@@ -72,7 +93,7 @@ exports.delete = function (req, res) {
         _id: req.params.product_id
     }, function (err, product) {
         if (err) {
-            res.status(500).send(err);
+            res.status(404).send(err);
         } else if (product.deletedCount === 0) {
             res.status(404).send('Product not found');
         } else {

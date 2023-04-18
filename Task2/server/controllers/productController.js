@@ -9,13 +9,16 @@ exports.index = function (req, res) {
                 status: "success",
                 message: "Products retrieved successfully",
                 data: products
-            })
+            });
+        })
         .catch(err => {
-            console.log(err);
-            res.status(500).send('Server error');
+            res.json({
+                status: "error",
+                message: err,
+            });
         });
-    });
 };
+
 
 // Handle create product actions
 exports.new = function (req, res) {
@@ -90,7 +93,7 @@ exports.delete = function (req, res) {
         _id: req.params.product_id
     }, function (err, product) {
         if (err) {
-            res.status(500).send(err);
+            res.status(404).send(err);
         } else if (product.deletedCount === 0) {
             res.status(404).send('Product not found');
         } else {
